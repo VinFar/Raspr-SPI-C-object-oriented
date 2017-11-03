@@ -27,7 +27,8 @@ static ShapeClass circle_class = {&draw,&move};
 Circle newCircle(int x, int y, int r){
 	Circle shape;
 
-	shape = malloc(sizeof(struct Circle_Instance_struct));
+	shape = alloc(Circle);
+//	shape = malloc(sizeof(struct Circle_Instance_struct));
 
 	shape->x = x;
 	shape->y = y;

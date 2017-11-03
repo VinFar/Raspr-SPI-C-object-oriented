@@ -14,17 +14,8 @@
 
 int main(int argv, char** argc){
 
-	puts("hallo");
 
-	Circle circle1 = newCircle(5 , 5 , 5);
-
-	circle1->clazz->move(circle1,10,10);
-
-	Rect rect1 = newRect(555,555,55,55);
-
-	rect1->clazz->draw(rect1);
-
-#ifndef SPI_Debug
+#if SPI_Debug
 	puts("hallo");
 	static const char *device = "/dev/spidev0.0";
 	static unsigned long mode;
@@ -32,6 +23,7 @@ int main(int argv, char** argc){
 	static unsigned long speed = 500000;
 	int ret, fd;
 	unsigned char *data = (unsigned char*)'c';
+
 
 
 	/*open device*/
@@ -46,6 +38,16 @@ int main(int argv, char** argc){
 	ret = SpiWriteRead(fd,data,sizeof(data));
 
 	printf("rcvd: %c",ret);
+#else
+	puts("Objektorientiert");
+
+	Circle circle1 = newCircle(5 , 5 , 5);
+
+	circle1->clazz->move(circle1,10,10);
+
+	Rect rect1 = newRect(555,555,55,55);
+
+	rect1->clazz->draw(rect1);
 #endif
 
 	return 0;

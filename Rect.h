@@ -27,7 +27,7 @@
 //	int h;
 //};
 
-DEFINE_EXTENDED_TYPE(Rect,Shape)
+DEFINE_EXTENDED_TYPE(Rect,SHAPE)
 
 
 

@@ -9,6 +9,8 @@
 #define COBJECTS_H_
 
 
+#define alloc(T) (T)malloc(sizeof(struct T##_Instance_struct))
+
 /*define header of class*/
 #define BEG_DEFINE_CLASS(T) typedef struct T##_Instance_struct* T; \
 	typedef struct T##_Class_struct {
@@ -17,7 +19,7 @@
 #define END_DEFINE_CLASS(T) } T##Class;
 
 /*extend for shape*/
-#define EXTENDS(T)	SHAPE_METHODS(T)
+#define EXTENDS(T)	T##_METHODS
 
 
 
@@ -28,12 +30,12 @@
 #define END_DEFINE_INSTANCE(T) } T##Instance;
 
 /*instance of for shape*/
-#define INSTANCE_OF(T) SHAPE_ATTRIBUTES(T)
+#define INSTANCE_OF(T) T##_ATTRIBUTES
 
 
 
 #define DEFINE_EXTENDED_TYPE(T,E)	BEG_DEFINE_CLASS(T) EXTENDS(E)\
-									Rect_METHODS(T##class)\
+									Rect_METHODS\
 									END_DEFINE_CLASS(T)\
 									\
 									BEG_DEFINE_INSTANCE(T) INSTANCE_OF(E)\
@@ -46,11 +48,11 @@
  *
  */
 /*define for shape methdo*/
-#define SHAPE_METHODS(T)	void (*draw)(Shape T); \
-							void (*move)(Shape T,int x,int y);
+#define SHAPE_METHODS		void (*draw)(Shape ashape); \
+							void (*move)(Shape ashape,int x,int y);
 
 /*define for Shape attributes*/
-#define SHAPE_ATTRIBUTES(T)	T##Class* clazz;\
+#define SHAPE_ATTRIBUTES	ShapeClass* clazz;\
 							int x;\
 							int y;
 
@@ -62,7 +64,7 @@
  *
  */
 
-#define Circle_METHODS(T) void (*resize)(Circle T, int r);
+#define Circle_METHODS void (*resize)(Circle acircle, int r);
 
 #define Circle_ATTRIBUTES int r;
 
@@ -73,7 +75,7 @@
  */
 
 /*define Rect methods*/
-#define Rect_METHODS(T) void (*resize)(Rect T, int w, int h);
+#define Rect_METHODS void (*resize)(Rect arect, int w, int h);
 
 /*define Rect Attributes*/
 #define Rect_ATTRIBUTES int w;\
