@@ -15,14 +15,16 @@
 
 
 BEG_DEFINE_CLASS(Shape)
-SHAPE_METHODS
+Shape_METHODS
 END_DEFINE_CLASS(Shape)
 
 
 BEG_DEFINE_INSTANCE(Shape)
-SHAPE_ATTRIBUTES
+Shape_ATTRIBUTES
 END_DEFINE_INSTANCE(Shape)
 
+void draw(Shape aShape);
+void move(Shape aShape,int x,int y);
 
 #endif /* SHAPE_H_ */
 

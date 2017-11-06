@@ -9,21 +9,14 @@
 #include "Rect.h"
 
 
-static void draw(Shape rect){
-
-	printf("\ndraw rect \n w:%d",rect->x);
-	return;
-}
-
-static void move(Shape rect,int x,int y){
-
-	rect->x=x;
-	rect->y=y;
-	printf("rect moved\n x:%d\n y:%d",rect->x,rect->y);
-	return;
-}
-
 static ShapeClass shapeclass = {&draw,&move};
+
+void rotate(Shape ashape,int angle){
+
+	printf("rotated");
+
+
+}
 
 Rect newRect(int x, int y, int w,int h){
 	Rect shape;

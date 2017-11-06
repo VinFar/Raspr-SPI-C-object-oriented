@@ -8,7 +8,7 @@
 #ifndef COBJECTS_H_
 #define COBJECTS_H_
 
-
+/*easier type-safe malloc*/
 #define alloc(T) (T)malloc(sizeof(struct T##_Instance_struct))
 
 /*define header of class*/
@@ -33,14 +33,25 @@
 #define INSTANCE_OF(T) T##_ATTRIBUTES
 
 
-
+/*define class with extends and instance of*/
 #define DEFINE_EXTENDED_TYPE(T,E)	BEG_DEFINE_CLASS(T) EXTENDS(E)\
-									Rect_METHODS\
+									T##_METHODS\
 									END_DEFINE_CLASS(T)\
 									\
 									BEG_DEFINE_INSTANCE(T) INSTANCE_OF(E)\
-									Rect_ATTRIBUTES \
+									T##_ATTRIBUTES \
 									END_DEFINE_INSTANCE(T)
+
+
+#define DEFINE_BASE_TYPE(T) BEG_DEFINE_CLASS(T) \
+							T##_METHODS \
+							END_DEFINE_CLASS(T)\
+							\
+							BEG_DEFINE_INSTANCE(T) \
+							T##_ATTRIBUTES \
+							END_DEFINE_INSTANCE(T)
+
+
 
 /*
  *
@@ -48,11 +59,11 @@
  *
  */
 /*define for shape methdo*/
-#define SHAPE_METHODS		void (*draw)(Shape ashape); \
+#define Shape_METHODS		void (*draw)(Shape ashape); \
 							void (*move)(Shape ashape,int x,int y);
 
 /*define for Shape attributes*/
-#define SHAPE_ATTRIBUTES	ShapeClass* clazz;\
+#define Shape_ATTRIBUTES	ShapeClass* clazz;\
 							int x;\
 							int y;
 
@@ -75,7 +86,8 @@
  */
 
 /*define Rect methods*/
-#define Rect_METHODS void (*resize)(Rect arect, int w, int h);
+#define Rect_METHODS	void (*resize)(Rect arect, int w, int h); \
+						void (*rotate)(Rect arect,int anlge);
 
 /*define Rect Attributes*/
 #define Rect_ATTRIBUTES int w;\

@@ -9,10 +9,14 @@
 
 
 void draw(Shape aShape){
-	printf("Shape:%d",aShape->x);
+	printf("\ndrawed shape\nx:%d\ny:%d\n",aShape->x,aShape->y);
 	return;
 }
 
-void move(Shape aShape){
-	printf("move Shape");
+void move(Shape aShape,int x,int y){
+	printf("\nmoved shape\n");
+	printf("from x:%d y:%d\n",aShape->x,aShape->y);
+	aShape->x = x;
+	aShape->y = y;
+	printf("to x:%d y:%d\n",aShape->x,aShape->y);
 }

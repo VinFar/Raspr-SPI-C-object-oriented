@@ -33,29 +33,22 @@ int Ioctl(int fd, unsigned long spi_mode,unsigned long *mode) {
 	return ret;
 }
 
-int SpiWriteRead(int fd, unsigned char *data, int length)
-
+void SpiWriteRead(SPI_t spi)
 {
-	struct spi_ioc_transfer spi_data[10];
-	unsigned long bits = 8;
-	unsigned long speed = 500000;
-	int i, ret;
+	Ioctl(spi.fd, SPI_IOC_RD_BITS_PER_WORD, &spi.bits);
 
-	Ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits);
+	Ioctl(spi.fd, SPI_IOC_RD_MAX_SPEED_HZ, &spi.speed);
 
-	Ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed);
+		spi.spi_data->tx_buf = spi.data;
+		spi.spi_data->rx_buf = spi.data;
+		spi.spi_data->len = sizeof(spi.data);
+		spi.spi_data->delay_usecs = 0;
+		spi.spi_data->speed_hz = spi.speed;
+		spi.spi_data->bits_per_word = spi.bits;
+		spi.spi_data->cs_change = 0;
 
-	for (i = 0; i < length; i++) {
-		spi_data[i].tx_buf = (unsigned long) (data + i);
-		spi_data[i].rx_buf = (unsigned long) (data + i);
-		spi_data[i].len = sizeof(*(data + i));
-		spi_data[i].delay_usecs = 0;
-		spi_data[i].speed_hz = speed;
-		spi_data[i].bits_per_word = bits;
-		spi_data[i].cs_change = 0;
-	}
 	puts("test");
-	ret = Ioctl(fd, SPI_IOC_MESSAGE(length), &spi_data);
+	spi.ret = Ioctl(spi.fd, SPI_IOC_MESSAGE(1), (void*)spi.spi_data);
 
-	return ret;
+	return;
 }
