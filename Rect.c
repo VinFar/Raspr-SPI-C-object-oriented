@@ -13,9 +13,9 @@ static ShapeClass shapeclass = {&draw,&move};
 
 void rotate(Shape ashape,int angle){
 
-	printf("rotated");
+	printf("rotated: %d",angle);
 
-
+	return;
 }
 
 Rect newRect(int x, int y, int w,int h){

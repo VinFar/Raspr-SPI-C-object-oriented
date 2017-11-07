@@ -8,6 +8,8 @@
 #ifndef COBJECTS_H_
 #define COBJECTS_H_
 
+typedef unsigned bool;
+
 /*easier type-safe malloc*/
 #define alloc(T) (T)malloc(sizeof(struct T##_Instance_struct))
 
@@ -31,6 +33,11 @@
 
 /*instance of for shape*/
 #define INSTANCE_OF(T) T##_ATTRIBUTES
+
+#define METHODS(T) T##_METHODS
+
+#define ATTRIBUTES(T) T##_ATTRIBUTES
+
 
 
 /*define class with extends and instance of*/
@@ -93,7 +100,16 @@
 #define Rect_ATTRIBUTES int w;\
 						int h;
 
+#define Led_ATTRIBUTES	int GPIO; \
+						bool status;
 
+#define Led_METHODS	void (*on)(Led aled); \
+					void (*off)(Led aled); \
+					bool (*getStatus)(Led aled);
+
+#define PWMLed_ATTRIBUTES int value;
+
+#define PWMLed_METHODS
 
 
 

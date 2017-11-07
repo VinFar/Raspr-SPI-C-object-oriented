@@ -14,6 +14,7 @@
 
 
 
+
 BEG_DEFINE_CLASS(Shape)
 Shape_METHODS
 END_DEFINE_CLASS(Shape)

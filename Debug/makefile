@@ -27,8 +27,8 @@ all: Embedded
 # Tool invocations
 Embedded: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
-	@echo 'Invoking: GCC C Linker'
-	gcc  -o "Embedded" $(OBJS) $(USER_OBJS) $(LIBS)
+	@echo 'Invoking: Cross GCC Linker'
+	arm-linux-gnueabihf-gcc -L/usr/local/lib -o "Embedded" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

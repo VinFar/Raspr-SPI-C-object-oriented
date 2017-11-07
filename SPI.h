@@ -31,6 +31,14 @@ int Ioctl(int fd,unsigned long spi_mode,unsigned long *mode);
 void SpiWriteRead(SPI_t spi);
 
 
+union ADC
+{
+    uint16_t value;
+    struct {
+        uint8_t low;
+        uint8_t high;
+    };
+} adc;
 
 
 #endif /* SPI_H_ */

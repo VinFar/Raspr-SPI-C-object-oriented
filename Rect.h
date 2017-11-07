@@ -13,14 +13,6 @@
 
 DEFINE_EXTENDED_TYPE(Rect,Shape)
 
-BEG_DEFINE_CLASS(Rect) EXTENDS(Shape)
-Rect_METHODS
-END_DEFINE_CLASS(Rect)
-
-BEG_DEFINE_INSTANCE(Rect) INSTANCE_OF(Shape)
-Rect_ATTRIBUTES
-END_DEFINE_INSTANCE(Rect)
-
 
 
 Rect newRect(int x, int y, int w, int h);
