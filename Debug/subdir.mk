@@ -6,21 +6,18 @@
 C_SRCS += \
 ../Circle.c \
 ../Rect.c \
-../SPI.c \
 ../Shape.c \
 ../main_oo.c 
 
 OBJS += \
 ./Circle.o \
 ./Rect.o \
-./SPI.o \
 ./Shape.o \
 ./main_oo.o 
 
 C_DEPS += \
 ./Circle.d \
 ./Rect.d \
-./SPI.d \
 ./Shape.d \
 ./main_oo.d 
 

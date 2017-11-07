@@ -22,19 +22,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: Embedded
+all: Raspr-SPI-C-object-oriented
 
 # Tool invocations
-Embedded: $(OBJS) $(USER_OBJS)
+Raspr-SPI-C-object-oriented: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross GCC Linker'
-	arm-linux-gnueabihf-gcc -L/usr/local/lib -o "Embedded" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-linux-gnueabihf-gcc -L/usr/local/lib -o "Raspr-SPI-C-object-oriented" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) Embedded
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) Raspr-SPI-C-object-oriented
 	-@echo ' '
 
 .PHONY: all clean dependents

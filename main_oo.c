@@ -8,7 +8,6 @@
 #include "Shape.h"
 #include "Circle.h"
 #include "Rect.h"
-#include "SPI.h"
 #include <wiringPi.h>
 #include <string.h>
 
@@ -19,12 +18,13 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "MCP3204.h"
 #endif
 
 int main(int argv, char** argc) {
 
 #if SPI_Debug
-	puts("SPI Modusss");
+	puts("SPI Modus");
 
 	int SPI_fd;
 	struct timeval time;
@@ -32,17 +32,8 @@ int main(int argv, char** argc) {
 
 	time.tv_sec = 1;
 	time.tv_usec = 1;
-
 	data = malloc(3);
-	data[0] = 0x6;
-	data[1] = 0x0;
-	data[2] = 0x0;
 
-	puts("SPIs");
-	puts("nach strcpy");
-	printf("RW DATA2: %d\n", (int) data[2]);
-	printf("RW DATA1: %d\n", (int) data[1]);
-	printf("RW DATA0: %d\n", (int) data[0]);
 
 	if ((SPI_fd = wiringPiSPISetupMode(0, 500000, 0b11)) < 0) {
 
@@ -51,19 +42,21 @@ int main(int argv, char** argc) {
 
 	}
 	while (1) {
+		data[0] = 0x6;
+		data[1] = 0x0;
+		data[2] = 0x0;
 
 		wiringPiSPIDataRW(0, data, 3);
 
 		adc.high = data[1];
 		adc.low = data[2];
-		printf("Value: %d\n", adc.value);
-		time.tv_sec = 1;
-		time.tv_usec = 1;
+//		printf("Value: %d\n", adc.value);
+		printf("mVolt: %d\n",adc.value);
+		time.tv_sec = 0;
+		time.tv_usec = 100000;
 
 		select(SPI_fd + 1, NULL, NULL, NULL, &time);
-		data[0] = 0x6;
-		data[1] = 0x0;
-		data[2] = 0x0;
+
 	}
 	return 0;
 #else
