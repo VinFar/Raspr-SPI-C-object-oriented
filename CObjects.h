@@ -13,12 +13,16 @@ typedef unsigned bool;
 /*easier type-safe malloc*/
 #define alloc(T) (T)malloc(sizeof(struct T##_Instance_struct))
 
+
+
 /*define header of class*/
 #define BEG_DEFINE_CLASS(T) typedef struct T##_Instance_struct* T; \
 	typedef struct T##_Class_struct {
 
 /*define end of class */
 #define END_DEFINE_CLASS(T) } T##Class;
+
+
 
 /*extend for shape*/
 #define EXTENDS(T)	T##_METHODS
@@ -30,6 +34,8 @@ typedef unsigned bool;
 
 /*define end of instance*/
 #define END_DEFINE_INSTANCE(T) } T##Instance;
+
+
 
 /*instance of for shape*/
 #define INSTANCE_OF(T) T##_ATTRIBUTES

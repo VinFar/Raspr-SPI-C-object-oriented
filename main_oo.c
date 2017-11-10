@@ -30,7 +30,7 @@ int main(int argv, char** argc) {
 	struct timeval time;
 	unsigned char *data;
 
-	time.tv_sec = 1;
+	time.tv_sec = 10;
 	time.tv_usec = 1;
 	data = malloc(3);
 
@@ -48,8 +48,8 @@ int main(int argv, char** argc) {
 
 		wiringPiSPIDataRW(0, data, 3);
 
-		adc.high = data[1];
-		adc.low = data[2];
+		adc.union_struct_rw.high = data[1];
+		adc.union_struct_rw.low = data[2];
 //		printf("Value: %d\n", adc.value);
 		printf("mVolt: %d\n",adc.value);
 		time.tv_sec = 0;

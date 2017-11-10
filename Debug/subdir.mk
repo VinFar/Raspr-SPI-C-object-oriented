@@ -5,18 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Circle.c \
+../MCP3204.c \
 ../Rect.c \
 ../Shape.c \
 ../main_oo.c 
 
 OBJS += \
 ./Circle.o \
+./MCP3204.o \
 ./Rect.o \
 ./Shape.o \
 ./main_oo.o 
 
 C_DEPS += \
 ./Circle.d \
+./MCP3204.d \
 ./Rect.d \
 ./Shape.d \
 ./main_oo.d 
