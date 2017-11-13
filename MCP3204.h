@@ -12,6 +12,10 @@
 #include <stdint.h>
 #include <errno.h>
 
+
+#define SPI_Debug 1
+#define DEBUG 1
+
 /*#define mcp_error(x) printf("x: ")
  #define set_error(x)	mcp_string = malloc(sizeof(#x)) \
 						*mcp_string = #x
@@ -42,7 +46,7 @@ typedef struct Single_ADC_Channel_Instance_struct Single_ChannelInstance;
 typedef struct Single_ADC_Channel_Class_struct {
 	int (*sin_setup)(int speed, unsigned int sin_ID, int CS_ID,
 			Single_ChannelInstance *this);
-	int (*read_analog)(Single_ChannelInstance this);
+	int (*sin_read_analog)(Single_ChannelInstance* this);
 } Single_ChannelClass;
 
 struct Single_ADC_Channel_Instance_struct {
@@ -58,7 +62,7 @@ typedef struct Diff_ADC_Channel_Instance_struct Diff_ChannelInstance;
 typedef struct Diff_ADC_Channel_Class_struct {
 	int (*diff_setup)(int speed, unsigned int diff_ID, int CS_ID,
 			Diff_ChannelInstance *this);
-	int (*read_analog)(Single_ChannelInstance this);
+	int (*diff_read_analog)(Diff_ChannelInstance this);
 } Diff_ChannelClass;
 
 struct Diff_ADC_Channel_Instance_struct {
@@ -72,9 +76,15 @@ struct Diff_ADC_Channel_Instance_struct {
 
 int diff_setup(int speed, unsigned int diff_ID, int CS_ID,
 		Diff_ChannelInstance *this);
+Diff_ChannelInstance newDiffChannel();
+
+
+int read_analog(Single_ChannelInstance this);
+
+
+Single_ChannelInstance* newSingleChannel();
 int sin_setup(int speed, unsigned int sin_ID, int CS_ID,
 		Single_ChannelInstance *this);
-Diff_ChannelInstance newDiffChannel();
-int read_analog(Single_ChannelInstance this);
+
 
 #endif /* MCP3204_H_ */

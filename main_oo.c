@@ -10,15 +10,13 @@
 #include "Rect.h"
 #include <wiringPi.h>
 #include <string.h>
-
-#define SPI_Debug 1
+#include "MCP3204.h"
 
 #if SPI_Debug
 #include <wiringPiSPI.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "MCP3204.h"
 #endif
 
 int main(int argv, char** argc) {
@@ -34,6 +32,22 @@ int main(int argv, char** argc) {
 	time.tv_usec = 1;
 	data = malloc(3);
 
+	Single_ChannelInstance* sin1 = newSingleChannel();
+
+	sin1->clazz->sin_setup(500000, 0, 0, sin1);
+
+	while (1) {
+		time.tv_sec = 0;
+		time.tv_usec = 100000;
+
+
+		sin1->clazz->sin_read_analog(sin1);
+
+		printf("mVolt: %d\n", sin1->data.value);
+
+		select(0, NULL, NULL, NULL, &time);
+
+	}
 
 	if ((SPI_fd = wiringPiSPISetupMode(0, 500000, 0b11)) < 0) {
 
@@ -51,7 +65,7 @@ int main(int argv, char** argc) {
 		adc.union_struct_rw.high = data[1];
 		adc.union_struct_rw.low = data[2];
 //		printf("Value: %d\n", adc.value);
-		printf("mVolt: %d\n",adc.value);
+		printf("mVolt: %d\n", adc.value);
 		time.tv_sec = 0;
 		time.tv_usec = 100000;
 
