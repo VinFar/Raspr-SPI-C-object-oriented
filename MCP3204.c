@@ -62,7 +62,7 @@ int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
 
 	this->conf = malloc(3);
 
-	this->conf[0] = (sin_ID >> 2) | 0b110;
+	this->conf[0] = ((sin_ID & 0b100) >> 2) | 0b110;
 	this->conf[1] = ((sin_ID & 0b11) << 6);
 	this->conf[2] = 0;
 
@@ -74,16 +74,19 @@ int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
 
 int diff_read_analog(Diff_ChannelInstance* this) {
 
-	if (wiringPiSPISetupMode(this->CS_ID, this->speed, 0b11) < 0) {
+	int fd;
+
+	if ((fd = wiringPiSPISetupMode(this->CS_ID, this->speed, 0)) < 0) {
 		perror("diff_read_analog error");
 		return (-1);
 	}
 
-	unsigned char *data;
+	unsigned char data[3];
 
-	data = malloc(sizeof(this->conf));
 
-	*data = *(this->conf);
+	data[0] = this->conf[0];
+	data[1] = this->conf[1];
+	data[2] = this->conf[2];
 
 	wiringPiSPIDataRW(0, data, 3);
 
@@ -91,30 +94,31 @@ int diff_read_analog(Diff_ChannelInstance* this) {
 	this->data.union_struct_rw.low = data[2];
 
 
-	free(data);
-
+	close(fd);
 	return 0;
 }
 
 int sin_read_analog(Single_ChannelInstance* this) {
 
-	if (wiringPiSPISetupMode(this->CS_ID, this->speed, 0b11) < 0) {
+	int fd;
+
+	if ((fd = wiringPiSPISetupMode(this->CS_ID, this->speed, 0)) < 0) {
 		perror("diff_read_analog error");
 		return -1;
 	}
 
-	unsigned char *data;
+	unsigned char data[3];
 
-	data = malloc(sizeof(Single_ChannelInstance));
-
-	*data = *(this->conf);
+	data[0] = this->conf[0];
+	data[1] = this->conf[1];
+	data[2] = this->conf[2];
 
 	wiringPiSPIDataRW(0, data, 3);
 
 	this->data.union_struct_rw.high = data[1];
 	this->data.union_struct_rw.low = data[2];
 
-	free(data);
+	close(fd);
 
 	return 0;
 }
