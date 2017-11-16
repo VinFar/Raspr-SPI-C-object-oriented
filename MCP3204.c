@@ -12,7 +12,7 @@
 #include <wiringPi.h>
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
-		Diff_ChannelInstance *this) {
+		Diff_ChannelInstance this) {
 
 	if (diff_ID > 4) {
 //		errno = "Bad diff_ID";
@@ -44,7 +44,7 @@ int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 }
 
 int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
-		Single_ChannelInstance *this) {
+		Sin_ChannelInstance this) {
 
 	if (sin_ID > 4) {
 		puts("Bad sin ID");
@@ -72,7 +72,7 @@ int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
 	return 0;
 }
 
-int diff_read_analog(Diff_ChannelInstance* this) {
+int diff_read_analog(Diff_ChannelInstance this) {
 
 	int fd;
 
@@ -98,7 +98,7 @@ int diff_read_analog(Diff_ChannelInstance* this) {
 	return 0;
 }
 
-int sin_read_analog(Single_ChannelInstance* this) {
+int sin_read_analog(Sin_ChannelInstance this) {
 
 	int fd;
 
@@ -125,15 +125,15 @@ int sin_read_analog(Single_ChannelInstance* this) {
 
 static Diff_ChannelClass diff_inst = { diff_setup, diff_read_analog };
 
-Diff_ChannelInstance* newDiffChannel() {
+Diff_ChannelInstance newDiffChannel() {
 
-	Diff_ChannelInstance* inst;
+	Diff_ChannelInstance inst;
 
 #if DEBUG
 	puts("created new Diff_ChannelInstance");
 #endif
 
-	inst = malloc(sizeof(Diff_ChannelInstance));
+	inst = malloc(sizeof(Diff_ADC_Channel_Instance));
 
 	inst->CS_ID = 0;
 	inst->conf = 0;
@@ -145,13 +145,13 @@ Diff_ChannelInstance* newDiffChannel() {
 	return inst;
 }
 
-static Single_ChannelClass sin_inst = { sin_setup, sin_read_analog };
+static Sin_ChannelClass sin_inst = { sin_setup, sin_read_analog };
 
-Single_ChannelInstance* newSingleChannel() {
+Sin_ChannelInstance newSingleChannel() {
 
-	Single_ChannelInstance *inst;
+	Sin_ChannelInstance inst;
 
-	inst = malloc(sizeof(Single_ChannelInstance));
+	inst = malloc(sizeof(Sin_ADC_Channel_Instance));
 
 #if DEBUG
 	puts("created new Diff_ChannelInstance");
@@ -166,4 +166,11 @@ Single_ChannelInstance* newSingleChannel() {
 
 	return inst;
 }
+
+
+//BEG_DEFINE_SIN_CLASS(Channel)
+//METHODS(Sin)
+//END_DEFINE_SIN_CLASS(Channel)
+//
+
 

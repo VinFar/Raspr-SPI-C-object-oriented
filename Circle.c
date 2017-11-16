@@ -6,7 +6,11 @@
  */
 
 #include "Circle.h"
+#include "MCP3204.h"
 
+
+#if SPI_Debug
+#else
 /*singleton*/
 static ShapeClass circle_class = {draw,&move};
 
@@ -25,3 +29,4 @@ Circle newCircle(int x, int y, int r){
 
 	return shape;
 }
+#endif

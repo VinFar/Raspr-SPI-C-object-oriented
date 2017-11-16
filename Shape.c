@@ -6,8 +6,9 @@
  */
 
 #include "Shape.h"
-
-
+#include "MCP3204.h"
+#if SPI_Debug
+#else
 void draw(Shape aShape){
 	printf("\ndrawed shape\nx:%d\ny:%d\n",aShape->x,aShape->y);
 	return;
@@ -20,3 +21,4 @@ void move(Shape aShape,int x,int y){
 	aShape->y = y;
 	printf("to x:%d y:%d\n",aShape->x,aShape->y);
 }
+#endif

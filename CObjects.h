@@ -8,8 +8,13 @@
 #ifndef COBJECTS_H_
 #define COBJECTS_H_
 
+#include "MCP3204.h"
+
 typedef unsigned bool;
 
+#if SPI_Debug
+
+#else
 /*easier type-safe malloc*/
 #define alloc(T) (T)malloc(sizeof(struct T##_Instance_struct))
 
@@ -117,7 +122,6 @@ typedef unsigned bool;
 
 #define PWMLed_METHODS
 
-
-
+#endif
 
 #endif /* COBJECTS_H_ */

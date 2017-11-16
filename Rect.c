@@ -7,8 +7,9 @@
 
 
 #include "Rect.h"
-
-
+#include "MCP3204.h"
+#if SPI_Debug
+#else
 static ShapeClass shapeclass = {&draw,&move};
 
 void rotate(Shape ashape,int angle){
@@ -30,3 +31,4 @@ Rect newRect(int x, int y, int w,int h){
 
 	return shape;
 }
+#endif

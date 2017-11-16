@@ -11,10 +11,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "CObjects.h"
+#include "MCP3204.h"
 
-
-
-
+#if SPI_Debug
+#else
 BEG_DEFINE_CLASS(Shape)
 Shape_METHODS
 END_DEFINE_CLASS(Shape)
@@ -26,6 +26,6 @@ END_DEFINE_INSTANCE(Shape)
 
 void draw(Shape aShape);
 void move(Shape aShape,int x,int y);
-
+#endif
 #endif /* SHAPE_H_ */
 
