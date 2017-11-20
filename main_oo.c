@@ -31,9 +31,9 @@ int main(int argv, char** argc) {
 
 
 
-	Sin_ChannelInstance sin1 = newSingleChannel();
-	Sin_ChannelInstance sin2 = newSingleChannel();
-	Diff_ChannelInstance diff1 = newDiffChannel();
+	Sin_Channel_Instance sin1 = newSinChannel(sizeof(*sin1));
+	Sin_Channel_Instance sin2 = newSinChannel(sizeof(*sin2));
+	Diff_Channel_Instance diff1 = newDiffChannel(sizeof(*diff1));
 
 	sin1->clazz->sin_setup(500000, 0, 0, sin1);
 	sin2->clazz->sin_setup(500000, 1, 0, sin2);

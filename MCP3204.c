@@ -12,7 +12,7 @@
 #include <wiringPi.h>
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
-		Diff_ChannelInstance this) {
+		Diff_Channel_Instance this) {
 
 	if (diff_ID > 4) {
 //		errno = "Bad diff_ID";
@@ -44,7 +44,7 @@ int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 }
 
 int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
-		Sin_ChannelInstance this) {
+		Sin_Channel_Instance this) {
 
 	if (sin_ID > 4) {
 		puts("Bad sin ID");
@@ -72,7 +72,7 @@ int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
 	return 0;
 }
 
-int diff_read_analog(Diff_ChannelInstance this) {
+int diff_read_analog(Diff_Channel_Instance this) {
 
 	int fd;
 
@@ -83,7 +83,6 @@ int diff_read_analog(Diff_ChannelInstance this) {
 
 	unsigned char data[3];
 
-
 	data[0] = this->conf[0];
 	data[1] = this->conf[1];
 	data[2] = this->conf[2];
@@ -93,12 +92,11 @@ int diff_read_analog(Diff_ChannelInstance this) {
 	this->data.union_struct_rw.high = data[1];
 	this->data.union_struct_rw.low = data[2];
 
-
 	close(fd);
 	return 0;
 }
 
-int sin_read_analog(Sin_ChannelInstance this) {
+int sin_read_analog(Sin_Channel_Instance this) {
 
 	int fd;
 
@@ -123,17 +121,18 @@ int sin_read_analog(Sin_ChannelInstance this) {
 	return 0;
 }
 
-static Diff_ChannelClass diff_inst = { diff_setup, diff_read_analog };
+static Diff_Channel_Class diff_inst = { diff_setup, diff_read_analog };
 
-Diff_ChannelInstance newDiffChannel() {
+Diff_Channel_Instance newDiffChannel(int size) {
 
-	Diff_ChannelInstance inst;
+	Diff_Channel_Instance inst;
+	printf("size: %d\n",size);
 
 #if DEBUG
 	puts("created new Diff_ChannelInstance");
 #endif
 
-	inst = malloc(sizeof(Diff_ADC_Channel_Instance));
+	inst = malloc(size);
 
 	inst->CS_ID = 0;
 	inst->conf = 0;
@@ -145,16 +144,17 @@ Diff_ChannelInstance newDiffChannel() {
 	return inst;
 }
 
-static Sin_ChannelClass sin_inst = { sin_setup, sin_read_analog };
+static Sin_Channel_Class sin_inst = { sin_setup, sin_read_analog };
 
-Sin_ChannelInstance newSingleChannel() {
+Sin_Channel_Instance newSinChannel(int size) {
 
-	Sin_ChannelInstance inst;
+	Sin_Channel_Instance inst;
 
-	inst = malloc(sizeof(Sin_ADC_Channel_Instance));
+	printf("size: %d\n",size);
+	inst = malloc(size);
 
 #if DEBUG
-	puts("created new Diff_ChannelInstance");
+	puts("created new Diff_Channel_Instance");
 #endif
 
 	inst->CS_ID = 0;
@@ -166,11 +166,4 @@ Sin_ChannelInstance newSingleChannel() {
 
 	return inst;
 }
-
-
-//BEG_DEFINE_SIN_CLASS(Channel)
-//METHODS(Sin)
-//END_DEFINE_SIN_CLASS(Channel)
-//
-
 

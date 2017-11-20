@@ -23,20 +23,30 @@
 
 char *mcp_string;
 
-#define mvolt(x) ((float)(x))*(5000/4096)
+#define mvolt(x) (float)((float)(x))*(5000/4096)
 
-#define BEG_DEFINE_SIN_CLASS(T) typedef struct Sin_ADC_##T##_Instance_struct* T;\
-		typedef struct Sin_ADC_##T##_Class_struct {
+#define BEG_DEFINE_SIN_CLASS(T)	typedef struct Sin_##T##_Instance_struct* Sin_##T##_Instance;\
+								typedef struct Sin_##T##_Class_struct {
 
-#define END_DEFINE_SIN_CLASS(T) } Sin_##T##Class;
-
-
-
-#define BEG_DEFINE_SIN_INSTANCE(T) typedef struct Sin_ADC_##T##_Instance_struct {
-
-#define END_DEFINE_SIN_INSTANCE	} Sin_##Instance;
+#define END_DEFINE_SIN_CLASS(T) } Sin_##T##_Class;
 
 
+
+#define BEG_DEFINE_SIN_INSTANCE(T) typedef struct Sin_##T##_Instance_struct {
+
+#define END_DEFINE_SIN_INSTANCE	}Sin_##T;
+
+
+
+#define BEG_DEFINE_DIFF_CLASS(T)	typedef struct Diff_##T##_Instance_struct* Diff_##T##_Instance;\
+									typedef struct Diff_##T##_Class_struct {
+
+#define END_DEFINE_DIFF_CLASS(T)	} Diff_##T##_Class;
+
+
+#define BEG_DEFINE_DIFF_INSTANCE(T)		typedef struct Diff_##T##_Instance_struct {
+
+#define END_DEFINE_DIFF_INSTANCE } Diff_##T;
 
 #define INSTANCE_OF(T) T##_CHANNEL_ATTRIBUTES
 
@@ -53,21 +63,21 @@ char *mcp_string;
 								char *conf;
 
 
-#define Sin_ATTRIBUTES	Single_ChannelClass *clazz;\
+#define Sin_ATTRIBUTES	Sin_Channel_Class *clazz;\
 						int sin_ID;
 
-#define Diff_ATTRIBUTES	Diff_ChannelClass* clazz;\
+#define Diff_ATTRIBUTES	Diff_Channel_Class* clazz;\
 						int diff_ID;
 
 
 
 #define Sin_METHODS int (*sin_setup)(int speed, unsigned int sin_ID, unsigned int CS_ID, \
-					Single_ChannelInstance *this);\
-					int (*sin_read_analog)(Single_ChannelInstance* this);
+					Sin_Channel_Instance this);\
+					int (*sin_read_analog)(Sin_Channel_Instance this);
 
 #define Diff_METHODS	int (*diff_setup)(int speed, unsigned int diff_ID, unsigned int CS_ID, \
-						Diff_ChannelInstance* this); \
-						int (*diff_read_analog)(Diff_ChannelInstance* this);
+						Diff_Channel_Instance this); \
+						int (*diff_read_analog)(Diff_Channel_Instance this);
 
 
 
@@ -88,51 +98,59 @@ typedef struct ADC_Channel_Instance_struct {
 	int CS_ID;
 	int speed;
 	char *conf;
-} ChannelInstance;
+} Channel_Instance;
 
-typedef struct Sin_ADC_Channel_Instance_struct* Sin_ChannelInstance;
-typedef struct Sin_ADC_Channel_Class_struct {
-	int (*sin_setup)(int speed, unsigned int sin_ID, unsigned int CS_ID,
-			Sin_ChannelInstance this);
-	int (*sin_read_analog)(Sin_ChannelInstance this);
-} Sin_ChannelClass;
+BEG_DEFINE_SIN_CLASS(Channel)
+METHODS(Sin)
+END_DEFINE_SIN_CLASS(Channel)
 
-typedef struct Sin_ADC_Channel_Instance_struct {
-	Sin_ChannelClass *clazz;
-	union ADC data;
-	int CS_ID;
-	int speed;
-	char *conf;
-	int sin_ID;
-}Sin_ADC_Channel_Instance;
+BEG_DEFINE_SIN_INSTANCE(Channel) INSTANCE_OF(ADC)
+ATTRIBUTES(Sin)
+END_DEFINE_SIN_INSTANCE
 
-typedef struct Diff_ADC_Channel_Instance_struct* Diff_ChannelInstance;
-typedef struct Diff_ADC_Channel_Class_struct {
+//typedef struct Sin_Channel_Instance_struct* Sin_Channel_Instance;
+//typedef struct Sin_Channel_Class_struct {
+//	int (*sin_setup)(int speed, unsigned int sin_ID, unsigned int CS_ID,
+//			Sin_Channel_Instance this);
+//	int (*sin_read_analog)(Sin_Channel_Instance this);
+//} Sin_Channel_Class;
+//
+//struct Sin_Channel_Instance_struct {
+//	Sin_Channel_Class *clazz;
+//	union ADC data;
+//	int CS_ID;
+//	int speed;
+//	char *conf;
+//	int sin_ID;
+//};
+
+typedef struct Diff_Channel_Instance_struct* Diff_Channel_Instance;
+typedef struct Diff_Channel_Class_struct {
 	int (*diff_setup)(int speed, unsigned int diff_ID, unsigned int CS_ID,
-			Diff_ChannelInstance this);
-	int (*diff_read_analog)(Diff_ChannelInstance this);
-} Diff_ChannelClass;
+			Diff_Channel_Instance this);
+	int (*diff_read_analog)(Diff_Channel_Instance this);
+} Diff_Channel_Class;
 
-typedef struct Diff_ADC_Channel_Instance_struct {
-	Diff_ChannelClass* clazz;
+struct Diff_Channel_Instance_struct {
+	Diff_Channel_Class* clazz;
 	union ADC data;
 	int CS_ID;
 	int speed;
 	char *conf;
 	int diff_ID;
-} Diff_ADC_Channel_Instance;
+};
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
-		Diff_ChannelInstance this);
-Diff_ChannelInstance newDiffChannel();
+		Diff_Channel_Instance this);
+Diff_Channel_Instance newDiffChannel(int size);
 
 
-int read_analog(Sin_ChannelInstance this);
+int read_analog(Sin_Channel_Instance this);
 
 
-Sin_ChannelInstance newSingleChannel();
+Sin_Channel_Instance newSinChannel(int size);
 int sin_setup(int speed, unsigned int sin_ID,unsigned int CS_ID,
-		Sin_ChannelInstance this);
+		Sin_Channel_Instance this);
 
 
 #endif /* MCP3204_H_ */
