@@ -17,19 +17,19 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "LED_Stripe.h"
 #endif
 
 int main(int argv, char** argc) {
 
 #if SPI_Debug
+	wiringPiSetup();
 	puts("SPI Modus");
-
+	LED(1);
 	struct timeval time;
-
+sleep(2);
 	time.tv_sec = 10;
 	time.tv_usec = 1;
-
-
 
 	Sin_Channel_Instance sin1 = newSinChannel(sizeof(*sin1));
 	Sin_Channel_Instance sin2 = newSinChannel(sizeof(*sin2));
@@ -37,7 +37,6 @@ int main(int argv, char** argc) {
 
 	sin1->clazz->sin_setup(500000, 0, 0, sin1);
 	sin2->clazz->sin_setup(500000, 1, 0, sin2);
-
 
 	diff1->clazz->diff_setup(500000, 0b10, 0, diff1);
 
@@ -49,11 +48,12 @@ int main(int argv, char** argc) {
 		sin2->clazz->sin_read_analog(sin2);
 		diff1->clazz->diff_read_analog(diff1);
 
+		LED_Stripe(sin2->data.value);
 
-	printf("%d		%d		%d\n", sin1->data.value, sin2->data.value,
-				diff1->data.value);
+//		printf("%d		%d		%d\n", sin1->data.value, sin2->data.value,
+//				diff1->data.value);
 
-		select(0, NULL, NULL, NULL, &time);
+//		select(0, NULL, NULL, NULL, &time);
 
 	}
 

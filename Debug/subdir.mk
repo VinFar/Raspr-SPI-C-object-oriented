@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Circle.c \
+../LED_Stripe.c \
 ../MCP3204.c \
 ../Rect.c \
 ../Shape.c \
@@ -12,6 +13,7 @@ C_SRCS += \
 
 OBJS += \
 ./Circle.o \
+./LED_Stripe.o \
 ./MCP3204.o \
 ./Rect.o \
 ./Shape.o \
@@ -19,6 +21,7 @@ OBJS += \
 
 C_DEPS += \
 ./Circle.d \
+./LED_Stripe.d \
 ./MCP3204.d \
 ./Rect.d \
 ./Shape.d \
