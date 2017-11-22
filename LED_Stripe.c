@@ -14,7 +14,8 @@ void LED(uint16_t s) {
 
 	for (int i = 1; i < 9; i++) {
 		pinMode(i, OUTPUT);
-		digitalWrite(i, LOW);
+		digitalWrite(i, HIGH);
+		pullUpDnControl(i,PUD_OFF);
 	}
 
 }
@@ -23,7 +24,7 @@ void LED_Stripe(uint16_t data) {
 	int32_t value;
 	value = data > 1000 ? (data - 1000) : 0;
 
-	for (int i = 1; i < 17; i++) {
+	for (int i = 1; i < 9; i++) {
 
 		if (value > 0) {
 			digitalWrite(i, HIGH);

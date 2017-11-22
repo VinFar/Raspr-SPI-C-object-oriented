@@ -26,8 +26,10 @@ int main(int argv, char** argc) {
 	wiringPiSetup();
 	puts("SPI Modus");
 	LED(1);
+	pinMode(2, OUTPUT);
+	digitalWrite(2, HIGH);
 	struct timeval time;
-sleep(2);
+	sleep(2);
 	time.tv_sec = 10;
 	time.tv_usec = 1;
 
@@ -49,10 +51,10 @@ sleep(2);
 		diff1->clazz->diff_read_analog(diff1);
 
 		LED_Stripe(sin2->data.value);
-
+//
 //		printf("%d		%d		%d\n", sin1->data.value, sin2->data.value,
 //				diff1->data.value);
-
+//
 //		select(0, NULL, NULL, NULL, &time);
 
 	}
