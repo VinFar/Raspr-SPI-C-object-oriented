@@ -20,18 +20,23 @@
 #include "LED_Stripe.h"
 #endif
 
+#define MCP2402 0
+
 int main(int argv, char** argc) {
 
 #if SPI_Debug
 	wiringPiSetup();
 	puts("SPI Modus");
-	LED(1);
-	pinMode(2, OUTPUT);
-	digitalWrite(2, HIGH);
+	pinMode(29, OUTPUT);
+//	LED(1);
+//	pinMode(2, OUTPUT);
+//	digitalWrite(2, HIGH);
 	struct timeval time;
-	sleep(2);
+//	sleep(2);
 	time.tv_sec = 10;
 	time.tv_usec = 1;
+
+#if MCP2402
 
 	Sin_Channel_Instance sin1 = newSinChannel(sizeof(*sin1));
 	Sin_Channel_Instance sin2 = newSinChannel(sizeof(*sin2));
@@ -58,6 +63,63 @@ int main(int argv, char** argc) {
 //		select(0, NULL, NULL, NULL, &time);
 
 	}
+
+#else
+
+	int fd;
+
+	if ((fd = wiringPiSPISetupMode(1, 500000, 0)) < 0) {
+		perror("diff_read_analog error");
+		return -1;
+	}
+
+	unsigned char data[3];
+
+	data[0] = 0b01000000;
+	data[1] = 0x0A;			//IOCON
+	data[2] = 0b00100000;	//BANK=0, Address pointer does not increment
+
+	digitalWrite(29, LOW);
+	if (wiringPiSPIDataRW(1, data, 3) < 0)
+		puts("err");
+	digitalWrite(29, HIGH);
+
+	data[0] = 0b01000000;
+	data[1] = 0b00000000;	//IODIRA
+	data[2] = 0b0;			//All pins at outputs
+
+	if (wiringPiSPIDataRW(1, data, 3) < 0)
+		puts("err2");
+
+	printf("1: %d,2: %d,3: %d", data[0], data[1], data[2]);
+
+	data[0] = 0b01000000;
+	data[1] = 0b000000001;	//IODIRB
+	data[2] = 0b0;			//All pins at output
+
+	if (wiringPiSPIDataRW(1, data, 3) < 0)
+		puts("err3");
+	while (1) {
+		data[0] = 0b01000000;
+		data[1] = 0x12;			//GPIOA
+		data[2] = 0b10101010;	//Set outputs
+
+		if (wiringPiSPIDataRW(1, data, 3) < 0)
+			puts("err4");
+
+		data[0] = 0b01000000;
+		data[1] = 0x12;			//GPIOA
+		data[2] = 0b01010101;	//Set outputs
+
+		if (wiringPiSPIDataRW(1, data, 3) < 0)
+			puts("err4");
+	}
+	puts("fertig");
+	close(fd);
+
+	return 0;
+
+#endif
 
 #else
 
