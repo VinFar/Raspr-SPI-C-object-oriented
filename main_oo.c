@@ -68,7 +68,7 @@ int main(int argv, char** argc) {
 
 	int fd;
 
-	if ((fd = wiringPiSPISetupMode(1, 500000, 0)) < 0) {
+	if ((fd = wiringPiSPISetupMode(1, 2000000, 0)) < 0) {
 		perror("diff_read_analog error");
 		return -1;
 	}

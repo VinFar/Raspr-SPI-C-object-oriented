@@ -5,11 +5,7 @@
  *      Author: vincent
  */
 
-#include "MCP3204.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <wiringPi.h>
+#include "main.h"
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 		Diff_Channel_Instance this) {

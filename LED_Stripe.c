@@ -4,11 +4,7 @@
  *  Created on: 20.11.2017
  *      Author: vincent
  */
-#include <unistd.h>
-#include <stdint.h>
-#include <errno.h>
-#include "LED_Stripe.h"
-#include <wiringPi.h>
+#include "main.h"
 
 void LED(uint16_t s) {
 

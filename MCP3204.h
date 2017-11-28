@@ -8,14 +8,8 @@
 #ifndef MCP3204_H_
 #define MCP3204_H_
 
-#include <unistd.h>
+#include "main.h"
 #include <stdint.h>
-#include <errno.h>
-
-
-#define SPI_Debug 1
-#define DEBUG 1
-
 /*#define mcp_error(x) printf("x: ")
  #define set_error(x)	mcp_string = malloc(sizeof(#x)) \
 						*mcp_string = #x
@@ -78,10 +72,6 @@ char *mcp_string;
 #define Diff_METHODS	int (*diff_setup)(int speed, unsigned int diff_ID, unsigned int CS_ID, \
 						Diff_Channel_Instance this); \
 						int (*diff_read_analog)(Diff_Channel_Instance this);
-
-
-
-
 
 union ADC {
 	uint16_t value;
