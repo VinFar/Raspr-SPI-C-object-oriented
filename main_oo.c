@@ -77,15 +77,13 @@ int main(int argv, char** argc) {
 	mcp.bits.A0 = 0;
 	mcp.bits.A1 = 0;
 	mcp.bits.A2 = 0;
-//	printf("sizeof1: %d\n",sizeof(*PRT));
-//	printf("union1: %d\n",(int)mcp.OpCode);
+
 	PRT->clazz->mcp_setup(500000, 1, mcp, PRT);
 	PRT->clazz->write_register(0x0A, 0b00100000, PRT);	//IOCON
 	PRT->clazz->write_register(0x00, 0x00, PRT);
 	PRT->clazz->write_register(0x01, 0x00, PRT);
 	time_s.tv_sec = 0;
 	time_s.tv_usec = 300000;
-	puts("vor while");
 
 
 	Sin_Channel_Instance sin1 = newSinChannel(sizeof(*sin1));

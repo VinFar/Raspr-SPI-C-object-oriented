@@ -114,21 +114,29 @@ END_DEFINE_SIN_INSTANCE
 //	int sin_ID;
 //};
 
-typedef struct Diff_Channel_Instance_struct* Diff_Channel_Instance;
-typedef struct Diff_Channel_Class_struct {
-	int (*diff_setup)(int speed, unsigned int diff_ID, unsigned int CS_ID,
-			Diff_Channel_Instance this);
-	int (*diff_read_analog)(Diff_Channel_Instance this);
-} Diff_Channel_Class;
+BEG_DEFINE_DIFF_CLASS(Channel)
+METHODS(Diff)
+END_DEFINE_DIFF_CLASS(Channel)
 
-struct Diff_Channel_Instance_struct {
-	Diff_Channel_Class* clazz;
-	union ADC data;
-	int CS_ID;
-	int speed;
-	char *conf;
-	int diff_ID;
-};
+BEG_DEFINE_DIFF_INSTANCE(Channel) INSTANCE_OF(ADC)
+ATTRIBUTES(Diff)
+END_DEFINE_DIFF_INSTANCE
+
+//typedef struct Diff_Channel_Instance_struct* Diff_Channel_Instance;
+//typedef struct Diff_Channel_Class_struct {
+//	int (*diff_setup)(int speed, unsigned int diff_ID, unsigned int CS_ID,
+//			Diff_Channel_Instance this);
+//	int (*diff_read_analog)(Diff_Channel_Instance this);
+//} Diff_Channel_Class;
+//
+//struct Diff_Channel_Instance_struct {
+//	Diff_Channel_Class* clazz;
+//	union ADC data;
+//	int CS_ID;
+//	int speed;
+//	char *conf;
+//	int diff_ID;
+//};
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 		Diff_Channel_Instance this);
