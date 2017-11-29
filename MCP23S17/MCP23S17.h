@@ -8,7 +8,7 @@
 #ifndef MCP23S17_H_
 #define MCP23S17_H_
 
-#include "main.h"
+#include "../main.h"
 
 union MCP_ADDRESS {
 	unsigned char OpCode;

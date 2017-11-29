@@ -1,0 +1,16 @@
+MCP23S17/MCP23S17.o: ../MCP23S17/MCP23S17.c ../MCP23S17/../main.h \
+ ../MCP23S17/../MCP3204/MCP3204.h ../MCP23S17/../MCP3204/../main.h \
+ ../MCP23S17/../LED_Stripe.h ../MCP23S17/../MCP23S17/MCP23S17.h \
+ ../MCP23S17/../MCP23S17/../main.h
+
+../MCP23S17/../main.h:
+
+../MCP23S17/../MCP3204/MCP3204.h:
+
+../MCP23S17/../MCP3204/../main.h:
+
+../MCP23S17/../LED_Stripe.h:
+
+../MCP23S17/../MCP23S17/MCP23S17.h:
+
+../MCP23S17/../MCP23S17/../main.h:

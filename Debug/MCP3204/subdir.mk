@@ -4,23 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../LED_Stripe.c \
-../ldr_print.c \
-../main_oo.c 
+../MCP3204/MCP3204.c 
 
 OBJS += \
-./LED_Stripe.o \
-./ldr_print.o \
-./main_oo.o 
+./MCP3204/MCP3204.o 
 
 C_DEPS += \
-./LED_Stripe.d \
-./ldr_print.d \
-./main_oo.d 
+./MCP3204/MCP3204.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-%.o: ../%.c
+MCP3204/%.o: ../MCP3204/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross GCC Compiler'
 	arm-linux-gnueabihf-gcc -I/usr/local/include -O0 -g3 -Wall -c -fmessage-length=0 -pthread -std=c11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"

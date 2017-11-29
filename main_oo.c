@@ -5,12 +5,11 @@
  *      Author: ak534552
  */
 
-#include "Shape.h"
-#include "Circle.h"
-#include "Rect.h"
+
 #include <wiringPi.h>
 #include <string.h>
-#include "MCP3204.h"
+#include "MCP3204/MCP3204.h"
+#include "MCP23S17/MCP23S17.h"
 #include <time.h>
 #include <stdlib.h>
 
@@ -28,11 +27,9 @@ int main(int argv, char** argc) {
 
 #if SPI_Debug
 	wiringPiSetup();
+	ldr_print(2000);
 	puts("SPI Modus");
-	pinMode(29, OUTPUT);
-//	LED(1);
-//	pinMode(2, OUTPUT);
-//	digitalWrite(2, HIGH);
+
 	struct timeval time_s;
 //	sleep(2);
 	time_s.tv_sec = 10;
@@ -51,18 +48,18 @@ int main(int argv, char** argc) {
 
 	while (1) {
 		time_s.tv_sec = 0;
-		time_s.tv_usec = 300000;
+		time_s.tv_usec = 10000;
 
 		sin1->clazz->sin_read_analog(sin1);
 		sin2->clazz->sin_read_analog(sin2);
 		diff1->clazz->diff_read_analog(diff1);
 
-//		LED_Stripe(sin2->data.value);
-//
-		printf("%d		%d		%d\n", sin1->data.value, sin2->data.value,
-				diff1->data.value);
+//		printf("%d		%d		%d\n", sin1->data.value, sin2->data.value,
+//				diff1->data.value);
 
-		select(0, NULL, NULL, NULL, &time);
+		ldr_print(sin2->data.value);
+
+		select(0, NULL, NULL, NULL, &time_s	);
 
 	}
 
@@ -98,9 +95,9 @@ int main(int argv, char** argc) {
 	while (1) {
 
 
-//		select(0, NULL, NULL, NULL, &time_s);
+		select(0, NULL, NULL, NULL, &time_s);
 		time_s.tv_sec = 0;
-		time_s.tv_usec = 100000;
+		time_s.tv_usec = 10000;
 
 
 		sin1->clazz->sin_read_analog(sin1);
@@ -108,7 +105,7 @@ int main(int argv, char** argc) {
 		diff1->clazz->diff_read_analog(diff1);
 
 		PRT->clazz->mcp_bargraph(sin2->data.value,PRT);
-
+		ldr_print(sin2->data.value);
 //		PRT->clazz->set_output_pins(GPIOA, rand(), PRT);
 //		PRT->clazz->set_output_pins(GPIOB, rand(), PRT);
 //		select(0, NULL, NULL, NULL, &time_s);
@@ -122,71 +119,6 @@ int main(int argv, char** argc) {
 //		time_s.tv_usec = 100000;
 
 	}
-
-	int fd;
-
-	if ((fd = wiringPiSPISetupMode(1, 500000, 0)) < 0) {
-		perror("diff_read_analog error");
-		return -1;
-	}
-
-	unsigned char data[3];
-
-	data[0] = 0b01000000;
-	data[1] = 0x0A;			//IOCON
-	data[2] = 0b00100000;	//BANK=0, Address pointer does not increment
-
-	digitalWrite(29, LOW);
-	if (wiringPiSPIDataRW(1, data, 3) < 0)
-		puts("err");
-	digitalWrite(29, HIGH);
-
-	data[0] = 0b01000000;
-	data[1] = 0b00000000;	//IODIRA
-	data[2] = 0b0;			//All pins at outputs
-
-	if (wiringPiSPIDataRW(1, data, 3) < 0)
-		puts("err2");
-
-	printf("1: %d,2: %d,3: %d", data[0], data[1], data[2]);
-
-	data[0] = 0b01000000;
-	data[1] = 0b000000001;	//IODIRB
-	data[2] = 0b0;			//All pins at output
-
-	if (wiringPiSPIDataRW(1, data, 3) < 0) {
-		puts("err3");
-	}
-
-	data[0] = 0b01000000;
-	data[1] = 0x12;			//GPIOA
-	data[2] = 0b01111101;	//Set outputs
-
-	if (wiringPiSPIDataRW(1, data, 3) < 0)
-		puts("err4");
-//	while (1)
-//		;
-	while (1) {
-
-		data[0] = 0b01000000;
-		data[1] = 0x12;			//GPIOA
-		data[2] = 0b00101000;	//Set outputs
-
-		if (wiringPiSPIDataRW(1, data, 3) < 0)
-			puts("err4");
-//		for(int i=0;i<10000000;i++);
-		puts("while");
-		data[0] = 0b01000000;
-		data[1] = 0x12;			//GPIOA
-		data[2] = 0b00010111;	//Set outputs
-
-		if (wiringPiSPIDataRW(1, data, 3) < 0)
-			puts("err4");
-//		for(int i=0;i<10000000;i++);
-	}
-	puts("fertig");
-	close(fd);
-
 	return 0;
 
 #endif

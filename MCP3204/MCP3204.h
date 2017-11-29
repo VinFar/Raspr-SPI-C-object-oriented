@@ -8,7 +8,7 @@
 #ifndef MCP3204_H_
 #define MCP3204_H_
 
-#include "main.h"
+#include "../main.h"
 #include <stdint.h>
 /*#define mcp_error(x) printf("x: ")
  #define set_error(x)	mcp_string = malloc(sizeof(#x)) \
@@ -73,6 +73,8 @@ char *mcp_string;
 						Diff_Channel_Instance this); \
 						int (*diff_read_analog)(Diff_Channel_Instance this);
 
+/* This union is written by the students */
+
 union ADC {
 	uint16_t value;
 	struct union_struct_rw {
@@ -81,7 +83,7 @@ union ADC {
 	} union_struct_rw;
 } adc;
 
-
+/*********************************/
 
 typedef struct ADC_Channel_Instance_struct {
 	union ADC data;
@@ -121,22 +123,6 @@ END_DEFINE_DIFF_CLASS(Channel)
 BEG_DEFINE_DIFF_INSTANCE(Channel) INSTANCE_OF(ADC)
 ATTRIBUTES(Diff)
 END_DEFINE_DIFF_INSTANCE
-
-//typedef struct Diff_Channel_Instance_struct* Diff_Channel_Instance;
-//typedef struct Diff_Channel_Class_struct {
-//	int (*diff_setup)(int speed, unsigned int diff_ID, unsigned int CS_ID,
-//			Diff_Channel_Instance this);
-//	int (*diff_read_analog)(Diff_Channel_Instance this);
-//} Diff_Channel_Class;
-//
-//struct Diff_Channel_Instance_struct {
-//	Diff_Channel_Class* clazz;
-//	union ADC data;
-//	int CS_ID;
-//	int speed;
-//	char *conf;
-//	int diff_ID;
-//};
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 		Diff_Channel_Instance this);

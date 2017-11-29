@@ -5,7 +5,7 @@
  *      Author: vincent
  */
 
-#include "main.h"
+#include "../main.h"
 
 int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 		Diff_Channel_Instance this) {
@@ -26,15 +26,20 @@ int diff_setup(int speed, unsigned int diff_ID, unsigned int CS_ID,
 
 	this->conf = malloc(3);
 
+	/* This part is written by the students*/
+
 	this->conf[0] = (diff_ID >> 2) | 0b100;
 	this->conf[1] = ((diff_ID & 0b11) << 6);
 	this->conf[2] = 0;
 
-//	this->data.union_struct_rw.high = this->conf[1];
-//	this->data.union_struct_rw.low = this->conf[2];
+	/**************************************/
 
 	this->speed = speed;
 	this->CS_ID = CS_ID;
+
+	this->data.union_struct_rw.high = 0;
+	this->data.union_struct_rw.low = 0;
+
 
 	return 0;
 }
@@ -58,9 +63,14 @@ int sin_setup(int speed, unsigned int sin_ID, unsigned int CS_ID,
 
 	this->conf = malloc(3);
 
+	/* This part is written by the students*/
+
 	this->conf[0] = ((sin_ID & 0b100) >> 2) | 0b110;
 	this->conf[1] = ((sin_ID & 0b11) << 6);
 	this->conf[2] = 0;
+
+	/**************************************/
+
 
 	this->speed = speed;
 	this->CS_ID = CS_ID;

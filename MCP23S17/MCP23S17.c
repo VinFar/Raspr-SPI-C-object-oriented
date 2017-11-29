@@ -5,7 +5,7 @@
  *      Author: vincent
  */
 
-#include "main.h"
+#include "../main.h"
 
 int write_register(unsigned char address_ptr, unsigned char value,
 		PRTEXP_MCP_Instance this) {

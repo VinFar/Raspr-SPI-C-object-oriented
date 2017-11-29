@@ -1,18 +1,20 @@
-main_oo.o: ../main_oo.c ../Shape.h ../CObjects.h ../MCP3204.h ../main.h \
- ../Circle.h ../Rect.h ../LED_Stripe.h ../MCP23S17.h
+main_oo.o: ../main_oo.c ../MCP3204/MCP3204.h ../MCP3204/../main.h \
+ ../MCP3204/../MCP3204/MCP3204.h ../MCP3204/../LED_Stripe.h \
+ ../MCP3204/../MCP23S17/MCP23S17.h ../MCP3204/../MCP23S17/../main.h \
+ ../MCP23S17/MCP23S17.h ../LED_Stripe.h
 
-../Shape.h:
+../MCP3204/MCP3204.h:
 
-../CObjects.h:
+../MCP3204/../main.h:
 
-../MCP3204.h:
+../MCP3204/../MCP3204/MCP3204.h:
 
-../main.h:
+../MCP3204/../LED_Stripe.h:
 
-../Circle.h:
+../MCP3204/../MCP23S17/MCP23S17.h:
 
-../Rect.h:
+../MCP3204/../MCP23S17/../main.h:
+
+../MCP23S17/MCP23S17.h:
 
 ../LED_Stripe.h:
-
-../MCP23S17.h:

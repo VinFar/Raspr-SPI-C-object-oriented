@@ -8,6 +8,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include MCP3204/subdir.mk
+-include MCP23S17/subdir.mk
 -include subdir.mk
 -include objects.mk
 
